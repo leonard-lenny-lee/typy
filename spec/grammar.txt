@@ -1,0 +1,84 @@
+---General Statements---
+
+statements	        -> statement+
+
+statement	        -> compound_stmt | simple_stmts
+
+simple_stmt	        -> assignment | type_alias_def | return_stmt | "pass" | del_stmt | assert_stmt | "break" | "continue" | expression
+
+compound_stmt	    -> func_def | struct_def | enum_def | if_stmt | while_stmt | for_stmt
+
+---Simple Statements---
+
+assignment	        -> IDENT ":" type_specifier "=" expression | IDENT augassign expression
+
+augassign           -> (arithmetric_operator | bitwise_operator) "="
+
+return_stmt	        -> "return" [expression]
+
+del_stmt	        -> "del" IDENT
+
+type_alias_def	    -> "type" type_alias "=" type_specifier
+
+assert_stmt         -> "assert" expression
+
+---Compound statements---
+
+block		        -> NEWLINE_INDENT statements DEDENT
+
+func_def            -> "def" IDENT "(" [params+] ")" ["->" type_specifier ":" block]
+
+struct_def	        -> "struct" struct_ident ":" fields func_def*
+
+fields		        -> NEWLINE_INDENT params+ DEDENT
+
+enum_def	        -> "enum" enum_def ":" enum_variants
+
+enum_variants	    -> NEWLINE_INDENT (IDENT ["=" INT])+ DEDENT
+
+if_stmt		        -> "if" expression ":" block elif_stmt* [else_stmt]
+
+elif_stmt	        -> "elif" expression ":" block
+
+else_stmt	        -> "else" ":" block
+
+while_stmt	        -> "while" expression ":" block
+
+for_stmt	        -> "for" "(" statement ";" statement ";" statement ")"
+
+---Expressions---
+
+expression	        -> literal | unary | binary | grouping | ternary
+
+grouping	        -> "(" expression ")"
+
+unary		        -> ("!" | "-" | "&") expression     # ! is also logical and bitwise NOT 
+
+binary		        -> expression (comparison_operator | arithmetric_operator | bitwise_operator | logical_operator ) expression
+
+arithmetric_operator-> "+" | "-" | "/" | "*" | "**"
+
+comparison_operator -> "==" | "!=" | "<" | "<=" | ">" | ">=" 
+
+bitwise_operator    -> "<<" | ">>" | "^" | "|"
+
+logical_operator    -> "&&" | "||"
+
+ternary             -> expression "if" expression "else" expression
+
+access_operator     -> (struct_ident | enum_ident) "." IDENT
+
+---Primary Elements---
+
+literal		        -> INT | FLOAT | STR | "True" | "False"
+
+params		        -> IDENT ":" type_specifier ","
+
+type_specifier      -> ["*"] "int" | "float" | "str" | struct_ident | enum_ident | type_alias | "None"
+
+type_alias	        -> IDENT
+
+struct_ident        -> IDENT
+
+enum_ident	        -> IDENT
+
