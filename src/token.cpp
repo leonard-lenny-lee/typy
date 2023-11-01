@@ -3,80 +3,80 @@
 #include <optional>
 #include <string>
 
-const std::unordered_map<std::string, Token::Type> SYMBOL_MAPPINGS = {
-    {"(", Token::LPAREN},
-    {")", Token::RPAREN},
-    {",", Token::COMMA},
-    {".", Token::DOT},
-    {";", Token::SEMICOLON},
-    {":", Token::COLON},
-    {"+", Token::PLUS},
-    {"-", Token::MINUS},
-    {"/", Token::SLASH},
-    {"*", Token::STAR},
-    {"**", Token::STAR_STAR},
-    {"<", Token::LESS},
-    {"<<", Token::LESS_LESS},
-    {">", Token::GREATER},
-    {">>", Token::GREATER_GREATER},
-    {"^", Token::CARET},
-    {"|", Token::VBAR},
-    {"||", Token::VBAR_VBAR},
-    {"&", Token::AMPER},
-    {"&&", Token::AMPER_AMPER},
-    {"=", Token::EQ},
-    {"+=", Token::PLUS_EQ},
-    {"-=", Token::MINUS_EQ},
-    {"/=", Token::SLASH_EQ},
-    {"*=", Token::STAR_EQ},
-    {"**=", Token::STAR_STAR_EQ},
-    {"<=", Token::LESS_EQ},
-    {"<<=", Token::LESS_LESS_EQ},
-    {">=", Token::GREATER_EQ},
-    {">>=", Token::GREATER_GREATER_EQ},
-    {"^=", Token::CARET_EQ},
-    {"|=", Token::VBAR_EQ},
-    {"&=", Token::AMPER_EQ},
-    {"->", Token::RARROW},
-    {"...", Token::ELLIPSIS},
+const std::unordered_map<std::string, typy::Token::Type> SYMBOL_MAPPINGS = {
+    {"(", typy::Token::LPAREN},
+    {")", typy::Token::RPAREN},
+    {",", typy::Token::COMMA},
+    {".", typy::Token::DOT},
+    {";", typy::Token::SEMICOLON},
+    {":", typy::Token::COLON},
+    {"+", typy::Token::PLUS},
+    {"-", typy::Token::MINUS},
+    {"/", typy::Token::SLASH},
+    {"*", typy::Token::STAR},
+    {"**", typy::Token::STAR_STAR},
+    {"<", typy::Token::LESS},
+    {"<<", typy::Token::LESS_LESS},
+    {">", typy::Token::GREATER},
+    {">>", typy::Token::GREATER_GREATER},
+    {"^", typy::Token::CARET},
+    {"|", typy::Token::VBAR},
+    {"||", typy::Token::VBAR_VBAR},
+    {"&", typy::Token::AMPER},
+    {"&&", typy::Token::AMPER_AMPER},
+    {"=", typy::Token::EQ},
+    {"+=", typy::Token::PLUS_EQ},
+    {"-=", typy::Token::MINUS_EQ},
+    {"/=", typy::Token::SLASH_EQ},
+    {"*=", typy::Token::STAR_EQ},
+    {"**=", typy::Token::STAR_STAR_EQ},
+    {"<=", typy::Token::LESS_EQ},
+    {"<<=", typy::Token::LESS_LESS_EQ},
+    {">=", typy::Token::GREATER_EQ},
+    {">>=", typy::Token::GREATER_GREATER_EQ},
+    {"^=", typy::Token::CARET_EQ},
+    {"|=", typy::Token::VBAR_EQ},
+    {"&=", typy::Token::AMPER_EQ},
+    {"->", typy::Token::RARROW},
+    {"...", typy::Token::ELLIPSIS},
 };
 
-const std::unordered_map<std::string, Token::Type> KEYWORD_MAPPINGS = {
-    {"pass", Token::PASS},
-    {"break", Token::BREAK},
-    {"continue", Token::CONTINUE},
-    {"return", Token::RETURN},
-    {"del", Token::DEL},
-    {"type", Token::TYPE},
-    {"assert", Token::ASSERT},
-    {"def", Token::DEF},
-    {"struct", Token::STRUCT},
-    {"enum", Token::ENUM},
-    {"if", Token::IF},
-    {"elif", Token::ELIF},
-    {"else", Token::ELSE},
-    {"while", Token::WHILE},
-    {"for", Token::FOR},
-    {"True", Token::TRUE},
-    {"False", Token::FALSE},
+const std::unordered_map<std::string, typy::Token::Type> KEYWORD_MAPPINGS = {
+    {"pass", typy::Token::PASS},
+    {"break", typy::Token::BREAK},
+    {"continue", typy::Token::CONTINUE},
+    {"return", typy::Token::RETURN},
+    {"del", typy::Token::DEL},
+    {"type", typy::Token::TYPE},
+    {"assert", typy::Token::ASSERT},
+    {"def", typy::Token::DEF},
+    {"struct", typy::Token::STRUCT},
+    {"enum", typy::Token::ENUM},
+    {"if", typy::Token::IF},
+    {"elif", typy::Token::ELIF},
+    {"else", typy::Token::ELSE},
+    {"while", typy::Token::WHILE},
+    {"for", typy::Token::FOR},
+    {"True", typy::Token::TRUE},
+    {"False", typy::Token::FALSE},
 };
 
-Token::Token(Type token_t, std::optional<std::string> lexeme, int line,
-             int startcol, int endcol)
-    : m_token_t(token_t), m_lexeme(lexeme), m_line(line), m_startcol(startcol),
+typy::Token::Token(Type token_t, std::optional<std::string> text, int line,
+                   int startcol, int endcol)
+    : m_token_t(token_t), m_text(text), m_line(line), m_startcol(startcol),
       m_endcol(endcol) {}
 
-std::string Token::stringify() {
-    std::string str = Token::stringify_token_t(this->m_token_t);
-    if (this->m_lexeme) {
-        str.append(" " + m_lexeme.value());
+std::string typy::Token::stringify() {
+    std::string str = Token::stringify_token_t(m_token_t);
+    if (m_text) {
+        str.append(" " + m_text.value());
     }
-    return "(" + str + " LINE " + std::to_string(this->m_line + 1) + " COL " +
-           std::to_string(this->m_startcol + 1) + " TO " +
-           std::to_string(this->m_endcol + 1) + ")";
+    return "(" + str + " LINE " + std::to_string(m_line + 1) + " COL " +
+           std::to_string(m_startcol + 1) + " TO " +
+           std::to_string(m_endcol + 1) + ")";
 }
 
-std::string Token::stringify_token_t(Type token_t) {
+std::string typy::Token::stringify_token_t(Type token_t) {
     switch (token_t) {
     case LPAREN:
         return "LPAREN";
@@ -203,16 +203,18 @@ std::string Token::stringify_token_t(Type token_t) {
     }
 }
 
-std::optional<Token::Type> Token::match_symbol(const std::string &str) {
+std::optional<typy::Token::Type>
+typy::Token::match_symbol(const std::string &str) {
     if (SYMBOL_MAPPINGS.count(str)) {
         return SYMBOL_MAPPINGS.at(str);
     }
-    return {};
+    return std::nullopt;
 };
 
-std::optional<Token::Type> Token::match_keyword(const std::string &str) {
+std::optional<typy::Token::Type>
+typy::Token::match_keyword(const std::string &str) {
     if (KEYWORD_MAPPINGS.count(str)) {
         return KEYWORD_MAPPINGS.at(str);
     }
-    return {};
+    return std::nullopt;
 }

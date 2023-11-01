@@ -3,6 +3,7 @@
 #include <optional>
 #include <string>
 
+namespace typy {
 struct Token {
     public:
         enum Type {
@@ -73,8 +74,8 @@ struct Token {
             ENDMARKER,
         };
 
-        Token(Type token_t, std::optional<std::string> lexeme, int line,
-              int start_col, int end_col);
+        Token(Type token_t, std::optional<std::string> text, int line,
+              int startcol, int endcol);
 
         std::string stringify();
         static std::string stringify_token_t(Type token_t);
@@ -83,8 +84,9 @@ struct Token {
 
     public:
         Type m_token_t;
-        std::optional<std::string> m_lexeme;
+        std::optional<std::string> m_text;
         int m_line;
         int m_startcol;
         int m_endcol;
 };
+} // namespace typy

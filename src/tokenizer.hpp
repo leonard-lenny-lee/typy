@@ -4,10 +4,10 @@
 
 #include <cctype>
 #include <optional>
-#include <regex>
 #include <string>
 #include <vector>
 
+namespace typy {
 class Tokenizer {
     public:
         Tokenizer(std::string source);
@@ -40,3 +40,4 @@ class Tokenizer {
         int m_level;
         int m_cur;
 };
+} // namespace typy
